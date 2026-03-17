@@ -27,6 +27,21 @@ $(document).ready(function () {
             ? parseFloat(item.rating.aggregateRating) : 0;
     }
 
+    // ▶ Sebelumnya duplikat inline di createCard() & openDetail() — sekarang 1 tempat
+    function getImageUrl(obj, fallback) {
+        return (obj && obj.primaryImage && obj.primaryImage.url)
+            ? obj.primaryImage.url
+            : (fallback || 'https://placehold.co/300x450?text=No+Image');
+    }
+
+    // ▶ Normalisasi berbagai bentuk response API — sebelumnya ditulis 3× berbeda
+    function normalizeList(res, key) {
+        if (key && Array.isArray(res[key])) return res[key];
+        if (Array.isArray(res.data))        return res.data;
+        if (Array.isArray(res))             return res;
+        return [];
+    }
+
     function typeLabel(type) {
         const map = {
             movie: 'Film', tvMovie: 'TV Movie',
@@ -56,8 +71,7 @@ $(document).ready(function () {
     function createCard(item, idx) {
         const id     = item.id;
         const title  = item.primaryTitle || 'Tanpa Judul';
-        const img    = (item.primaryImage && item.primaryImage.url)
-            ? item.primaryImage.url : 'https://placehold.co/300x450?text=No+Image';
+        const img    = getImageUrl(item);                   // ▶ pakai helper, tidak inline lagi
         const year   = item.startYear || '-';
         const type   = item.type || 'unknown';
         const rating = getRating(item) || 'N/A';
@@ -105,7 +119,7 @@ $(document).ready(function () {
         showSkeletons();
         $.get(BASE_URL)
             .done(function (response) {
-                allData = response.titles || [];
+                allData = normalizeList(response, 'titles'); // ▶ pakai helper
                 buildGenreFilters();
                 applyFilters();
             })
@@ -305,19 +319,14 @@ $(document).ready(function () {
         // ── 1. Detail
         $.get(`${BASE_URL}/${id}`)
             .done(function (res) {
-                const d = res.title || res;
+                const d      = res.title || res;
+                const rating = getRating(d) || 'N/A';       // ▶ pakai helper, tidak inline lagi
+
                 $('#modalTitle').text(d.primaryTitle || 'Judul Tidak Diketahui');
                 $('#modalOriginalTitle').text(d.originalTitle || '');
-                $('#modalImg').attr('src',
-                    (d.primaryImage && d.primaryImage.url)
-                        ? d.primaryImage.url
-                        : 'https://placehold.co/300x450?text=No+Image'
-                );
+                $('#modalImg').attr('src', getImageUrl(d));  // ▶ pakai helper
                 $('#modalYear').text(d.startYear || '-');
                 $('#modalType').text(typeLabel(d.type));
-
-                const rating = (d.rating && d.rating.aggregateRating)
-                    ? d.rating.aggregateRating : 'N/A';
                 $('#modalRating').html(
                     `<span style="color:#f5c518;font-weight:700;">${rating}</span>
                      <small style="color:var(--text-muted);"> /10</small>`
@@ -336,21 +345,21 @@ $(document).ready(function () {
         // ── 2. Images
         $.get(`${BASE_URL}/${id}/images`)
             .done(function (res) {
-                const images = res.images || res.data || (Array.isArray(res) ? res : []);
+                const images = normalizeList(res, 'images'); // ▶ pakai helper
                 $('#mainTabImagesPreview').empty();
 
                 if (images.length > 0) {
-                    images.slice(0, 20).forEach(img => {
+                    // ▶ 1 loop saja — sebelumnya 2 loop terpisah untuk data yang sama
+                    images.slice(0, 20).forEach((img, i) => {
                         const url = img.url || img;
                         $('#modalImagesContainer').append(
                             `<img src="${url}" class="gallery-img" alt="Gallery">`
                         );
-                    });
-                    images.slice(0, 3).forEach(img => {
-                        const url = img.url || img;
-                        $('#mainTabImagesPreview').append(
-                            `<img src="${url}" class="preview-img" alt="Preview">`
-                        );
+                        if (i < 3) {
+                            $('#mainTabImagesPreview').append(
+                                `<img src="${url}" class="preview-img" alt="Preview">`
+                            );
+                        }
                     });
                 } else {
                     $('#mainTabImagesPreview').html('<small class="text-muted">Tidak ada gambar.</small>');
@@ -361,16 +370,14 @@ $(document).ready(function () {
         // ── 3. Videos
         $.get(`${BASE_URL}/${id}/videos`)
             .done(function (res) {
-                const videos = res.videos || res.data || (Array.isArray(res) ? res : []);
+                const videos = normalizeList(res, 'videos'); // ▶ pakai helper
                 $('#mainTabVideosPreview').empty();
 
                 if (videos.length > 0) {
                     videos.forEach(vid => {
                         const vidTitle = vid.name || 'Video Terkait';
                         const type     = vid.type || 'video';
-                        const thumbUrl = (vid.primaryImage && vid.primaryImage.url)
-                            ? vid.primaryImage.url
-                            : 'https://placehold.co/300x170?text=No+Thumb';
+                        const thumbUrl = getImageUrl(vid, 'https://placehold.co/300x170?text=No+Thumb'); // ▶ pakai helper
                         const vidUrl   = `https://www.imdb.com/video/${vid.id}`;
 
                         $('#modalVideosContainer').append(`
@@ -394,8 +401,7 @@ $(document).ready(function () {
 
                     // Preview card (first video)
                     const fv      = videos[0];
-                    const pvThumb = (fv.primaryImage && fv.primaryImage.url)
-                        ? fv.primaryImage.url : 'https://placehold.co/300x170?text=No+Thumb';
+                    const pvThumb = getImageUrl(fv, 'https://placehold.co/300x170?text=No+Thumb'); // ▶ pakai helper
                     const pvUrl   = `https://www.imdb.com/video/${fv.id}`;
 
                     $('#mainTabVideosPreview').append(`
