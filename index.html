@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CineMax - Platform streaming film dan TV series terbaik. Nikmati ribuan konten pilihan dari seluruh dunia.">
+    <title>CineMax | Streaming Film &amp; TV Series</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ══════════════════════════════════════════
+         NAVBAR
+    ══════════════════════════════════════════ -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fa-solid fa-film"></i> CINEMAX
+            </a>
+            <button class="navbar-toggler border-0" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#katalog" id="navFilm">Film</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#katalog" id="navTV">TV Series</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#why-us">Why Us</a></li>
+                </ul>
+                <form class="d-flex" onsubmit="return false;">
+                    <input class="form-control search-input"
+                           type="search"
+                           id="searchInput"
+                           placeholder="Cari judul film / TV..."
+                           autocomplete="off">
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ══════════════════════════════════════════
+         HERO SECTION
+    ══════════════════════════════════════════ -->
+    <section class="hero-section" aria-label="Featured Content">
+        <div class="container position-relative">
+            <div class="row">
+                <div class="col-lg-6">
+                    <span class="hero-badge">
+                        <i class="fa-solid fa-fire me-1"></i> FEATURED TODAY
+                    </span>
+                    <h1 class="hero-title">One <span>Piece</span></h1>
+                    <div class="hero-meta">
+                        <span class="badge-meta"><i class="fa-solid fa-star text-warning me-1"></i> 8.9</span>
+                        <span class="badge-meta"><i class="fa-solid fa-calendar me-1"></i> 2023</span>
+                        <span class="badge-meta"><i class="fa-solid fa-tv me-1"></i> TV Series</span>
+                        <span class="badge-meta">Action · Adventure</span>
+                    </div>
+                    <p class="hero-desc">
+                        With his straw hat and ragtag crew, young pirate Monkey D. Luffy goes on an epic voyage 
+                        across the Grand Line to find the legendary treasure known as the &ldquo;One Piece.&rdquo;
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a style="text-decoration: none;" target="_blank" href="https://www.youtube.com/watch?v=OBDJgW-TJKc" class="btn-play">
+                            <i class="fa-solid fa-play me-2"></i> Watch Trailer
+                        </a>
+                        <button class="btn-info-outline" onclick="openDetail('tt11737520')">
+                            <i class="fa-solid fa-circle-info me-2"></i> Details
+                        </button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="num">2K+</div>
+                            <div class="lbl">Titles</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="num">140+</div>
+                            <div class="lbl">Countries</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="num">4K</div>
+                            <div class="lbl">Quality</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ══════════════════════════════════════════
+         CATALOG SECTION
+    ══════════════════════════════════════════ -->
+    <section id="katalog">
+        <div class="container">
+
+            <!-- Section Header -->
+            <div class="mb-4">
+                <p class="section-tag"><i class="fa-solid fa-clapperboard me-2"></i>Koleksi Kami</p>
+                <h2 class="section-title">Jelajahi Katalog</h2>
+            </div>
+
+            <!-- Main Type Tabs: Semua | Film | TV Series -->
+            <div class="main-tabs-wrapper" id="mainTabsWrapper">
+                <button class="main-tab-btn active" data-type="all" id="tabAll">
+                    <i class="fa-solid fa-border-all"></i> Semua
+                </button>
+                <button class="main-tab-btn" data-type="movie" id="tabMovie">
+                    <i class="fa-solid fa-film"></i> Film
+                </button>
+                <button class="main-tab-btn" data-type="tvSeries" id="tabTV">
+                    <i class="fa-solid fa-tv"></i> TV Series
+                </button>
+            </div>
+
+            <!-- Genre Filter Pills -->
+            <div class="genre-filter-row" id="genreFilters">
+                <button class="genre-btn active" data-genre="all">Semua Genre</button>
+                <!-- Dynamically populated by main.js -->
+            </div>
+
+            <!-- Top Bar: count + sort -->
+            <div class="top-bar">
+                <span class="result-count">
+                    Menampilkan <span id="resultCountNum">0</span> judul
+                </span>
+                <select class="sort-select" id="sortSelect" aria-label="Urutkan">
+                    <option value="rating">Rating Tertinggi</option>
+                    <option value="year">Tahun Terbaru</option>
+                    <option value="title">Judul A–Z</option>
+                </select>
+            </div>
+
+            <!-- Movie Grid -->
+            <div class="row g-3 mb-5" id="mainContainer">
+                <!-- Skeleton placeholders (replaced by JS) -->
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2"><div class="skeleton skeleton-card"></div></div>
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2"><div class="skeleton skeleton-card"></div></div>
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2"><div class="skeleton skeleton-card"></div></div>
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2"><div class="skeleton skeleton-card"></div></div>
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2"><div class="skeleton skeleton-card"></div></div>
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2"><div class="skeleton skeleton-card"></div></div>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center" id="paginationContainer"></ul>
+            </nav>
+
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         DETAIL MODAL
+    ══════════════════════════════════════════ -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Memuat...</h5>
+                    <button type="button" class="btn-close btn-close-white"
+                            data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <div class="d-flex gap-0 border-bottom border-secondary mb-4">
+                        <button class="modal-nav-tab active" data-target="tab-detail">
+                            <i class="fa-solid fa-circle-info me-1"></i> Informasi
+                        </button>
+                        <button class="modal-nav-tab" data-target="tab-gallery">
+                            <i class="fa-solid fa-images me-1"></i> Galeri
+                        </button>
+                        <button class="modal-nav-tab" data-target="tab-videos">
+                            <i class="fa-solid fa-video me-1"></i> Video
+                        </button>
+                    </div>
+
+                    <!-- Tab: Informasi -->
+                    <div id="tab-detail" class="modal-tab-content">
+                        <div class="row g-4">
+                            <div class="col-md-4 text-center">
+                                <img id="modalImg" src="" class="modal-poster" alt="Poster Film">
+                            </div>
+                            <div class="col-md-8">
+                                <p id="modalOriginalTitle" class="text-info mb-4"
+                                   style="font-size:1rem;font-weight:600;"></p>
+
+                                <div class="info-row">
+                                    <span class="info-label">
+                                        <i class="fa-solid fa-star text-warning me-1"></i>Rating
+                                    </span>
+                                    <span class="info-value" id="modalRating">-</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">
+                                        <i class="fa-solid fa-calendar me-1"></i>Tahun
+                                    </span>
+                                    <span class="info-value" id="modalYear">-</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">
+                                        <i class="fa-solid fa-tags me-1"></i>Tipe
+                                    </span>
+                                    <span class="info-value" id="modalType">-</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">
+                                        <i class="fa-solid fa-layer-group me-1"></i>Genre
+                                    </span>
+                                    <div id="modalGenres"></div>
+                                </div>
+
+                                <hr class="border-secondary my-3">
+                                <p class="text-muted mb-2"
+                                   style="font-size:0.78rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;">
+                                    Sinopsis
+                                </p>
+                                <p class="plot-text" id="modalPlot">Memuat sinopsis...</p>
+
+                                <hr class="border-secondary mt-4 mb-3">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-2"
+                                           style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;">
+                                            <i class="fa-solid fa-images me-1"></i>Preview Galeri
+                                        </p>
+                                        <div class="d-flex gap-2 flex-wrap" id="mainTabImagesPreview"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-muted mb-2"
+                                           style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;">
+                                            <i class="fa-solid fa-video me-1"></i>Preview Video
+                                        </p>
+                                        <div id="mainTabVideosPreview"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab: Galeri -->
+                    <div id="tab-gallery" class="modal-tab-content d-none">
+                        <div class="gallery-scroll" id="modalImagesContainer"></div>
+                    </div>
+
+                    <!-- Tab: Video -->
+                    <div id="tab-videos" class="modal-tab-content d-none">
+                        <div class="row g-3" id="modalVideosContainer"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- ══════════════════════════════════════════
+         ABOUT US SECTION
+    ══════════════════════════════════════════ -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+
+                <!-- Visual Side -->
+                <div class="col-lg-5">
+                    <div class="about-visual-wrap">
+                        <div class="about-img-main">
+                            <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1459"
+                                 alt="Film Studio" class="about-img">
+                        </div>
+                        <div class="about-img-badge">
+                            <i class="fa-solid fa-award"></i>
+                            <span>#1 Streaming<br>Platform</span>
+                        </div>
+                        <div class="about-glow-orb"></div>
+                    </div>
+                </div>
+
+                <!-- Content Side -->
+                <div class="col-lg-7">
+                    <p class="section-tag"><i class="fa-solid fa-circle-info me-2"></i>Tentang Kami</p>
+                    <h2 class="section-title mb-3">Kami Hadir untuk Para<br><span style="color:var(--accent);">Pecinta Film Sejati</span></h2>
+                    <p class="about-desc">
+                        CineMax adalah platform streaming yang didedikasikan untuk memberikan pengalaman menonton terbaik.
+                        Kami menghadirkan koleksi ribuan judul — dari film box office hingga serial TV eksklusif — semuanya
+                        dapat kamu akses kapan saja dan di mana saja dengan kualitas terbaik.
+                    </p>
+                    <p class="about-desc" style="margin-top:12px;">
+                        Didirikan sejak 2020, kami terus berinovasi untuk menyajikan konten yang relevan, informasi
+                        yang akurat, dan antarmuka yang nyaman bagi jutaan pengguna di seluruh dunia.
+                    </p>
+
+                    <!-- Stats Row -->
+                    <div class="about-stats-row">
+                        <div class="about-stat-item">
+                            <div class="about-stat-num">2K+</div>
+                            <div class="about-stat-lbl">Koleksi Judul</div>
+                        </div>
+                        <div class="about-stat-divider"></div>
+                        <div class="about-stat-item">
+                            <div class="about-stat-num">5M+</div>
+                            <div class="about-stat-lbl">Pengguna Aktif</div>
+                        </div>
+                        <div class="about-stat-divider"></div>
+                        <div class="about-stat-item">
+                            <div class="about-stat-num">140+</div>
+                            <div class="about-stat-lbl">Negara</div>
+                        </div>
+                        <div class="about-stat-divider"></div>
+                        <div class="about-stat-item">
+                            <div class="about-stat-num">4.9★</div>
+                            <div class="about-stat-lbl">Rating Pengguna</div>
+                        </div>
+                    </div>
+
+                    <a href="#katalog" class="btn-play" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;margin-top:8px;">
+                        <i class="fa-solid fa-clapperboard"></i> Mulai Menonton
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ══════════════════════════════════════════
+         WHY US SECTION
+    ══════════════════════════════════════════ -->
+    <section id="why-us" class="why-section">
+        <div class="container">
+
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <p class="section-tag"><i class="fa-solid fa-star me-2"></i>Keunggulan Kami</p>
+                <h2 class="section-title mb-3">Kenapa Pilih <span style="color:var(--accent);">CineMax?</span></h2>
+                <p style="color:var(--text-muted);font-size:0.9rem;max-width:520px;margin:0 auto;">
+                    Kami memberikan lebih dari sekadar streaming. Inilah alasan ribuan pengguna menjadikan CineMax pilihan utama mereka.
+                </p>
+            </div>
+
+            <!-- Feature Cards -->
+            <div class="row g-4">
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="why-card">
+                        <div class="why-icon-wrap" style="--icon-color: #66fcf1;">
+                            <i class="fa-solid fa-film"></i>
+                        </div>
+                        <h5 class="why-card-title">Koleksi Lengkap</h5>
+                        <p class="why-card-desc">Ribuan judul film dan TV series dari berbagai genre dan negara — diperbarui setiap hari untuk memastikan kamu tidak kehabisan tontonan.</p>
+                        <div class="why-card-shine"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="why-card">
+                        <div class="why-icon-wrap" style="--icon-color: #f59e0b;">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <h5 class="why-card-title">Rating & Ulasan Akurat</h5>
+                        <p class="why-card-desc">Data rating bersumber langsung dari IMDB — platform penilaian film terpercaya di dunia — sehingga kamu bisa memilih tontonan dengan yakin.</p>
+                        <div class="why-card-shine"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="why-card">
+                        <div class="why-icon-wrap" style="--icon-color: #ec4899;">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <h5 class="why-card-title">Pencarian Cerdas</h5>
+                        <p class="why-card-desc">Filter berdasarkan tipe, genre, dan kata kunci secara bersamaan. Temukan film atau series yang kamu inginkan dalam hitungan detik.</p>
+                        <div class="why-card-shine"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="why-card">
+                        <div class="why-icon-wrap" style="--icon-color: #8b5cf6;">
+                            <i class="fa-solid fa-photo-film"></i>
+                        </div>
+                        <h5 class="why-card-title">Galeri & Trailer</h5>
+                        <p class="why-card-desc">Lihat galeri foto behind-the-scenes dan tonton trailer resmi langsung dari halaman detail — sebelum memutuskan apa yang akan ditonton malam ini.</p>
+                        <div class="why-card-shine"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="why-card">
+                        <div class="why-icon-wrap" style="--icon-color: #10b981;">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                        </div>
+                        <h5 class="why-card-title">Responsif & Cepat</h5>
+                        <p class="why-card-desc">Tampilan yang optimal di semua perangkat — desktop, tablet, hingga smartphone. Desain ringan dan cepat tanpa mengorbankan estetika.</p>
+                        <div class="why-card-shine"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="why-card why-card-highlight">
+                        <div class="why-icon-wrap" style="--icon-color: #090b10;">
+                            <i class="fa-solid fa-rocket"></i>
+                        </div>
+                        <h5 class="why-card-title" style="color:#090b10;">Terus Berkembang</h5>
+                        <p class="why-card-desc" style="color:rgba(9,11,16,0.7);">Kami selalu mendengar masukan pengguna dan merilis fitur baru secara berkala — Watchlist, rekomendasi personal, dan masih banyak lagi segera hadir.</p>
+                        <div class="why-badge">Soon</div>
+                        <div class="why-card-shine"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ══════════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════════ -->
+    <footer>
+        <div class="container">
+            <div class="row g-4 mb-2">
+
+                <!-- Brand & Social -->
+                <div class="col-lg-4">
+                    <div class="footer-logo mb-3">
+                        <i class="fa-solid fa-film me-2"></i>CINEMAX
+                    </div>
+                    <p style="color:var(--text-muted);font-size:0.85rem;line-height:1.8;">
+                        Platform streaming film dan TV series terbaik. Nikmati ribuan konten pilihan dari seluruh dunia.
+                    </p>
+                    <div class="footer-social mt-3">
+                        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    </div>
+                </div>
+
+                <!-- Navigasi -->
+                <div class="col-6 col-lg-2">
+                    <p style="color:#fff;font-weight:600;font-size:0.85rem;margin-bottom:14px;">Navigasi</p>
+                    <div class="footer-links">
+                        <a href="#">Home</a>
+                        <a href="#katalog" id="footerFilm">Film</a>
+                        <a href="#katalog" id="footerTV">TV Series</a>
+                    </div>
+                </div>
+
+                <!-- Genre -->
+                <div class="col-6 col-lg-2">
+                    <p style="color:#fff;font-weight:600;font-size:0.85rem;margin-bottom:14px;">Genre</p>
+                    <div class="footer-links">
+                        <a href="#">Action</a>
+                        <a href="#">Drama</a>
+                        <a href="#">Comedy</a>
+                        <a href="#">Sci-Fi</a>
+                        <a href="#">Fantasy</a>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="col-lg-4">
+                    <p style="color:#fff;font-weight:600;font-size:0.85rem;margin-bottom:14px;">Newsletter</p>
+                    <p style="color:var(--text-muted);font-size:0.82rem;margin-bottom:12px;">
+                        Dapatkan info film terbaru langsung ke inbox kamu.
+                    </p>
+                    <div class="d-flex gap-2">
+                        <input type="email" class="form-control search-input"
+                               placeholder="email@kamu.com"
+                               style="flex:1;width:auto;"
+                               aria-label="Email newsletter">
+                        <button class="btn-play" style="padding:8px 18px;border-radius:8px;white-space:nowrap;">
+                            Daftar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="footer-divider">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <p class="footer-copy">&copy; 2026 CineMax. Data provided by api.imdbapi.dev</p>
+                <p class="footer-copy">Made with <i class="fa-solid fa-heart text-danger"></i> in Indonesia</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ══════════════════════════════════════════
+         SCRIPTS
+    ══════════════════════════════════════════ -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- App Logic -->
+    <script src="js/main.js"></script>
+
+    <!-- Quick links in Navbar & Footer trigger correct tab -->
+    <script>
+        document.getElementById('navFilm').addEventListener('click', function() {
+            document.getElementById('tabMovie').click();
+        });
+        document.getElementById('navTV').addEventListener('click', function() {
+            document.getElementById('tabTV').click();
+        });
+        document.getElementById('footerFilm').addEventListener('click', function() {
+            document.getElementById('tabMovie').click();
+        });
+        document.getElementById('footerTV').addEventListener('click', function() {
+            document.getElementById('tabTV').click();
+        });
+    </script>
+
+</body>
+</html>
